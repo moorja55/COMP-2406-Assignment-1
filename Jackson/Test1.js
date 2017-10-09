@@ -12,7 +12,6 @@ http.createServer(function (request,response){
 	console.log("url: " + request.url);
 	console.log("method: " + request.method);
 
-
 	//respond to client
 	response.writeHead(200, {'Content-Type': 'text/plain'});
 	response.write('Hello\n');
@@ -27,28 +26,59 @@ http.createServer(function (request,response){
 	function read(callback) {
 		setTimeout(function(){
 		var fs = require('fs');
-		fs.readFile('songs/Sister Golden Hair.txt', function(err, data) {
-			if(err) throw err;
-			var array = data.toString().split("\n");
-			for(var i=0; i<array.length; i++) {response.write(array[i]); }
-			//for(var i=0; i<array.length; i++) { console.log(array[i]); }
-			response.write('\n');
-		});
+		fs.readFile('songs/Sister Golden Hair.txt', 
+			function(err, data) {
+				if(err) throw err;
+				var array = data.toString().split("\n");
+				let search = "";
+				let start = "";
+				let end = "";
+				let chord = "";
+				let chord2 = "";
+				for(i in array) {
+					let new_line = array[i];
+					search = new_line.indexOf("[");
+					let chords = "";
+					if (search == -1){
+						response.write(new_line);
+					}
+					while (search != -1){
+						start = new_line.indexOf("[");
+						end = new_line.indexOf("]");
+						chord = new_line.substring(start+1,end);
+						chord2 = new_line.substring(start,end+1);
+						new_line = new_line.replace(chord2,"");
+						search = new_line.indexOf("[");
+						//console.log(start + " " + chords.length);
+						for (let j=0; j < (end + chord2.length + 1 - chords.length); j++){
+							chords += " ";
+						}
+						chords += chord;
+						//console.log(start + " " + end +" "+ chords + " " + search);
+						if (search == -1){
+							response.write(chords);
+							response.write('\n');
+							response.write(new_line);
+							//console.log(array[i]);
+						}
+					}
+				}
+			}
+		);
 		console.log("DONE");
-		console.log("read data");
 		callback();
 		}
 		, Math.floor((Math.random() * 1000) + 1));
 	}
 
-	read(function () {
-		setTimeout(function procces(){
-		console.log("process data");
-		setTimeout(function output (){
-			console.log("output data");
+	read(function (x) {
+		setTimeout(function procces(x){
+			console.log("process data");
+			setTimeout(function output (x){
+				console.log("output data");
 
-			//end HTTP response and provide final data to send
-			response.end("["+ counter++ + "]\n");
+				//end HTTP response and provide final data to send
+				response.end("["+ counter++ + "]\n");
 			},
 			Math.floor((Math.random() * 1000) + 1));
         },
