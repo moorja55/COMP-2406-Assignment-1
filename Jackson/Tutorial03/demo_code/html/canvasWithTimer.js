@@ -122,15 +122,7 @@ var drawCanvas = function(){
 					 movingBox.width,
 					 movingBox.height);
 	}
-	//draw circle							   
-    context.beginPath();
-    context.arc(canvas.width/2, //x co-ord
-            canvas.height/2, //y co-ord
-			canvas.height/2 - 5, //radius
-			0, //start angle
-			2*Math.PI //end angle
-			);
-    context.stroke();
+	
 }
 
 function handleMouseDown(e){
