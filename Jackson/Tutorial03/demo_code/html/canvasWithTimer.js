@@ -283,6 +283,7 @@ function handleSubmitButton () {
 	   //to catch the server repsonse.
        //alert("You typed: " + userText);
 	   //console.log("responseObj" + JSON.parse(data));
+	   
 	   $.post("userText", userRequestJSON, function(data, status){
 		   
 			console.log("data2: " + data);
