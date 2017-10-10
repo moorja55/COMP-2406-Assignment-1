@@ -15,18 +15,18 @@ http.createServer(function (request,response){
 	//respond to client
 	response.writeHead(200, {'Content-Type': 'text/plain'});
 	response.write('Hello\n');
+	var songName = "ReadMe"
 	var urlString = request.url;
-	var index = urlString.indexOf("?name=");
+	var index = urlString.indexOf("?song=");
 	if(index > 0) {
-		var name = urlString.substring(index + "?name=".length, urlString.length);
-		response.write(name + "\n");
+		songName = urlString.substring(index + "?song=".length, urlString.length);
+		response.write(songName + "\n");
 	}
-	else response.write('World\n');
 	
 	function read(callback) {
 		setTimeout(function(){
 		var fs = require('fs');
-		fs.readFile('songs/Sister Golden Hair.txt', 
+		fs.readFile('songs/'+songName+'.txt',
 			function(err, data) {
 				if(err) throw err;
 				var array = data.toString().split("\n");
