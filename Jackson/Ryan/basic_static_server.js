@@ -69,7 +69,7 @@ http.createServer(function (request,response){
 				//if it exists
 
 				console.log("USER REQUEST: " + dataObj.text );
-				var returnObj = [["B",2,"C",3], ["B", 3,"C", 4]];;
+				var returnObj = [["B",2,"C",3], ["B", 3,"C", 4]];
 				
 				/*
 				var bool = true;

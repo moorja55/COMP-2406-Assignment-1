@@ -96,7 +96,6 @@ function chooseSong(){
 		var userRequestObj = {text: userText}; //make object to send to server
 		var userRequestJSON = JSON.stringify(userRequestObj); //make json string
 		$('#userTextField').val(''); //clear the user text field
-		var title2 = "";
 
 		//Prepare a POST message for the server and a call back function
 		//to catch the server repsonse.
@@ -109,10 +108,10 @@ function chooseSong(){
 				console.log("typeof: " + typeof data);
 				var responseObj = JSON.parse(data);
 				//console.log("responseObj" + responseObj);
-				title2 = responseObj.text;
+				//movingString.word = responseObj.text;
 				//replace word array with new words if there are any
-				console.log("responseObj" + responseObj.wordArray);
-				if(responseObj.wordArray) words = responseObj.wordArray;
+				//console.log("responseObj" + responseObj.wordArray);
+				//if(responseObj.wordArray) words = responseObj.wordArray;
 			}
 		);
 	}
