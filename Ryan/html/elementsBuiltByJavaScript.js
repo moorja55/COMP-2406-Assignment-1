@@ -87,59 +87,57 @@ function dropper(event) {
 
 //handle the button clicks
 function chooseSong(){
+  document.getElementById("main").innerHTML = "";
   buildElements(song);
 }
 
 var song = new Object(); 
-song.chord = ["C", 2, "G", 3];
-song.lyrics = ["I","like","the","way", "your", "sparkling", "earrings", "lay"];
+song.chords = [["B",2,"C",3], ["B", 3,"C", 4]];
+song.lyrics = [["I","like","the","way", "your", "sparkling", "earrings", "lay"],["I","like","the","way", "your", "sparkling", "earrings", "lay"]];
 song.title = "Sister Golden Hair";
 
-function buildElements(song){
-  var horizontal = 20;
-  vertical = 100;
-  for(var i = 0; i < song.chord.length; i++){
-    if(i%2 != 0){
-      continue;
-    }else{
-      var chordItem = document.createElement("aSpan");
-      var aChord = document.createTextNode(song.chord[i]);
-      chordItem.appendChild(aChord);
-      chordItem.style.backgroundColor = "#EEEE00";
-      chordItem.style.position = "absolute";
-      chordItem.style.left = "" + horizontal + "px";
-      chordItem.style.top = "" + vertical + "px";
-      chordItem.onmousedown = grabber;
-      horizontal += song.chord[i].length * 10 + 30;
-      
-      document.getElementById("main").appendChild(chordItem);
-    }
-
-  }
-  vertical += 50;
-  horizontal = 20;
-	for(var i=0; i < song.lyrics.length; i++){
-     var LyricItem  = document.createElement("li");
-	   var lyric_line = document.createTextNode(song.lyrics[i]);
-	   LyricItem.appendChild(lyric_line);
-	   LyricItem.style.position = "absolute";
-	   LyricItem.style.left = "" + horizontal + "px";
-	   LyricItem.style.top = "200px";
-     horizontal += song.lyrics[i].length * 10 + 30;
-     LyricItem.setAttribute("id", "song_Lyrics")
-	   document.getElementById("main").appendChild(LyricItem);
-	}
-}
-
-/*function buildElements(){
+function buildElements(){
   //each i will be index of an array in array of chords, lyrics for each line
   //chords and lyrics will have the same number of arrays
+  var vertical = 100;
   for(var i = 0; i < song.lyrics.length; i++){
+    var horizontal = 20;
     chordLine = song.chords[i];
     lyricLine = song.lyrics[i];
     //iterate through chords in the first line
     for(var j = 0; j < chordLine.length; j++){
-      
+      if(j%2 == 1){
+        continue;
+      }
+      var chordItem = document.createElement("span");
+      var aChord = document.createTextNode(chordLine[j]);
+      chordItem.appendChild(aChord);
+      chordItem.style.backgroundColor = "#00ff00";      
+      chordItem.style.position = "absolute";
+      chordItem.style.left = "" + horizontal + "px";
+      chordItem.style.top = "" + vertical + "px";
+      chordItem.onmousedown = grabber;      
+      horizontal += chordLine[j].length * 10 + 30;
+      document.getElementById("main").appendChild(chordItem);
     }
+    vertical += 50;
+    horizontal = 20;
+    //now do the same for lyrics
+    var lyricItem = document.createElement("span");
+    var lyricStr = "";
+    for(var j = 0; j < lyricLine.length; j++){
+      lyricStr += lyricLine[j];
+      if (j != lyricLine.length - 1){
+        lyricStr += " ";
+      }
+    }
+    var aLyric = document.createTextNode(lyricStr);
+    lyricItem.appendChild(aLyric);
+    lyricItem.style.backgroundColor = "#EEEE00";
+    lyricItem.style.position = "absolute";
+    lyricItem.style.left = "" + horizontal + "px";
+    lyricItem.style.top = "" + vertical + "px";
+    document.getElementById("main").appendChild(lyricItem);
+    vertical += 50;
   }
-}*/
+}
