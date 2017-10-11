@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<!-- 
+     This example shows a web page with hardly any html elements,
+     but the <span> elements making up the words of the songs
+     are created by the javascript.
+     
+     Thus the javascript is building up the DOM
+     
+     A similar thing could be done with JQuery instead of
+     javascript manipulating raw DOM elements
+     -->
+<html>
+  <head>
+    <title> Assignment 1 </title>
+    <script src="jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="elementsBuiltByJavaScript.js"></script>
+  </head> 
+  <body style = "font-size: 20;">
+    <p>The list of songs you may choose from<br>
+    <ul>
+      <li>Sister Golden Hair</li><br>
+      <li>Brown Eyed Girl</li><br>
+      <li>Peaceful Easy Feeling</li><br>
+    </ul>
+  </p>
+    <input type="text" id="userTextField" name="userTextField">
+    <button onclick="chooseSong()">Open</button>
+    <br>
+    <button id="button_Save">Save</button>
+    <br>
+    <div id="main">sup</div>
+  </body>
+</html>
+
