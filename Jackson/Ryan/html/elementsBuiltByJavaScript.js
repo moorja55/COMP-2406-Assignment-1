@@ -106,10 +106,10 @@ function chooseSong(){
 		$.post("userText", userRequestJSON, 
 			function(data, status){
 		   
-				//console.log("data2: " + data);
+				console.log("data2: " + data);
 				console.log("typeof: " + typeof data);
-				var responseObj = JSON.parse(data);
-				console.log("responseObj" + responseObj);
+				//var responseObj = JSON.parse(data);
+				//console.log("responseObj" + responseObj);
 				//movingString.word = responseObj.text;
 				//replace word array with new words if there are any
 				//console.log("responseObj" + responseObj.wordArray);

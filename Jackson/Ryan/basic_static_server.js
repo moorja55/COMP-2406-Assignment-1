@@ -5,6 +5,7 @@ var http = require('http'); //need to http
 var fs = require('fs'); //need to read static files
 var url = require('url');  //to parse url strings
 
+//var counter = 1000; //to count invocations of function(req,res)
 
 var ROOT_DIR = 'html'; //dir to serve static files from
 
@@ -70,7 +71,10 @@ http.createServer(function (request,response){
 
 			console.log("USER REQUEST: " + dataObj.text );
 			var songName = dataObj.text;
-			console.log(songName);
+			
+			
+			
+			//console.log(songName);
 			
 			function read(callback) {setTimeout(function(){fs.readFile('songs/'+songName+'.txt',function(err, data) {
 				if(err) throw err;
@@ -107,7 +111,7 @@ http.createServer(function (request,response){
 					//and add chord array to song.chords
 					if (search == -1){
 
-						response.write(new_line);
+						//response.write(new_line);
 						
 					}
 					
@@ -151,28 +155,30 @@ http.createServer(function (request,response){
 							lyricArray = new_line.split(" ");
 							song.lyrics.push(lyricArray);
 							song.chords.push(chordArray);
-							response.write(chords);
-							response.write('\n');
-							response.write(new_line);
+							//response.write(chords);
+							//response.write('\n');
+							//response.write(new_line);
 							chordArray = [];
 							lyricArray = [];
 						}
 					}
 				}
 					
-			console.log(song);
+			//console.log(song);
 			//var returnObj = song;
-			var returnObj = [["B",2,"C",3], ["B", 3,"C", 4]];
-		   	//object to return to client
-			response.writeHead(200, {'Content-Type': MIME_TYPES["text"]});  //does not work with application/json MIME
-			response.end(JSON.stringify(returnObj)); //send just the JSON object
+			response.write(JSON.stringify(song));
+
 			
 			});callback();},Math.floor((Math.random() * 1000) + 1));}
 		
 			read(function (x) {setTimeout(function output (x){
 		
 					//end HTTP response and provide final data to send
-					//response.end("["+ counter++ + "]\n");
+					response.end();
+					//var returnObj = [["B",2,"C",3], ["B", 3,"C", 4]];
+					//object to return to client
+					//console.log(returnObj);
+					//response.end(JSON.stringify(returnObj)); //send just the JSON object
 				
 			},Math.floor((Math.random() * 1000) + 1));});
 			
