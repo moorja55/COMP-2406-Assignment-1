@@ -74,9 +74,9 @@ http.createServer(function (request,response){
 			
 			
 			
-			//console.log(songName);
+			console.log("Song name : " + songName);
 			
-			function read(callback) {setTimeout(function(){fs.readFile('songs/'+songName+'.txt',function(err, data) {
+			function read(callback) {setTimeout(function(){fs.readFile(ROOT_DIR + '/songs/'+songName+'.txt',function(err, data) {
 				if(err) throw err;
 				
 				//split text file by each new line
@@ -144,7 +144,7 @@ http.createServer(function (request,response){
 						chords += chordName;
 						
 						//Add chord spacing to chord array
-						chordArray.push((end + chordText.length + 1 - chords.length));
+						chordArray.push((start - chords.length));
 
 						//Add chord to chord array
 						chordArray.push(chordName); 
@@ -166,7 +166,7 @@ http.createServer(function (request,response){
 					
 			//console.log(song);
 			//var returnObj = song;
-			response.write(JSON.stringify(song));
+			response.write(data);
 
 			
 			});callback();},Math.floor((Math.random() * 1000) + 1));}

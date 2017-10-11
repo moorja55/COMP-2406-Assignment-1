@@ -90,12 +90,37 @@ function dropper(event) {
 }  //** end of dropper
 
 function format(sfile){
-  exsong = sfile.split("/n");
-  var exchords = [[5,"B",15,"C"], [0,"G#min", 15,"G"]];
-  var exlyrics = [["I","like","the","way", "your", "sparkling", "earrings", "lay"],["I","like","the","way", "your", "sparkling", "earrings", "lay"]];
-  var extitle = "Sister Golden Hair";
-  var song = {title : extitle, chords : exchords, lyrics : exlyrics};
-  return(song);
+  //split text file by each new line
+  var array = sfile.toString().split("\n");
+  
+  var song = new Object;
+
+  var chords = [];
+  var lyrics = [];
+
+  for(i = 1; i < array.length; i++){
+    line = array[i].split(" ");
+    var chordLine = [];
+    var lyricLine = [];
+    var chordSpaceCount = 0;
+    for(j in line){
+      if(line[j].startsWith("[")){
+        chordLine.push(chordSpaceCount);
+        chordSpaceCount = 0;
+        chordLine.push(line[j].substring(1, line[j].length-1));
+      }else{
+        lyricLine.push(line[j] + " ");
+        chordSpaceCount += line[j].length + 1
+      }
+    }
+    chords.push(chordLine);
+    chordLine = [];
+    lyrics.push(lyricLine);
+    lyricLine = [];
+  }
+  song = {title : array[0],chords : chords, lyrics : lyrics};
+  console.log(song);
+  return song;
 }
 //handle the button clicks
 function chooseSong(){
@@ -120,14 +145,12 @@ function chooseSong(){
     //console.log("responseObj" + JSON.parse(data));
     
     console.log("You typed: " + userText);
-    $.post("userText", userRequestJSON, 
+    $.post("songs\\" + userText + ".txt", userRequestJSON, 
       function(data, status){
         
         console.log("data2: " + data);
         console.log("typeof: " + typeof data);
-        song = JSON.parse(data);
-        console.log(song);
-        buildElements(song);
+        buildElements(format(data));
         //var responseObj = JSON.parse(data);
         //console.log("responseObj" + responseObj);
         //movingString.word = responseObj.text;
@@ -178,7 +201,7 @@ function buildElements(song){
       chordItem.appendChild(aChord);
       chordItem.style.backgroundColor = "#00ff00";      
       chordItem.style.position = "absolute";
-      horizontal += (chordSpace - 2 + chordLine[j].length) * 10;
+      horizontal += (chordSpace + chordLine[j].length) * 5;
       chordItem.style.left = "" + horizontal + "px";
       chordItem.style.top = "" + vertical + "px";
       chordItem.onmousedown = grabber;      

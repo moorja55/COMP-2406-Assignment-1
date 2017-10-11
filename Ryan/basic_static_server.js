@@ -22,7 +22,7 @@ var MIME_TYPES = {
     'txt': 'text/text'
 };
 
-var songs = ["/songs//BrownEyedGirl.txt", "/songs//SisterGoldenHair.txt", "/songs//PeacefulEasyFeeling.txt"];
+var songs = ["/songs//Brown%Eyed%Girl.txt", "/songs//Sister%Golden%Hair.txt", "/songs//Peaceful%Easy%Feeling.txt"];
 
 var get_mime = function(filename) {
     var ext, type;
@@ -43,7 +43,20 @@ http.createServer(function (request,response){
      console.log("METHOD: " + request.method);
 
 	 var filePath = ROOT_DIR + urlObj.pathname;
-	 if(urlObj.pathname === '/') filePath = ROOT_DIR + '/index.html';
+     if(urlObj.pathname === '/') filePath = ROOT_DIR + '/index.html';
+     console.log(filePath);
+     console.log("USER REQUEST: " + dataObj.text );
+     
+     var receivedData = '';
+     
+         //attached event handlers to collect the message data
+         request.on('data', 
+             function(chunk) {
+                 receivedData += chunk;
+             }
+         );
+         console.log(receivedData);
+         var dataObj = JSON.parse(receivedData);
      fs.readFile(filePath, function(err,data){
        if(err){
 		  //report error to console
