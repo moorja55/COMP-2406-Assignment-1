@@ -22,6 +22,8 @@ var MIME_TYPES = {
     'txt': 'text/text'
 };
 
+var songs = ["/songs//BrownEyedGirl.txt", "/songs//SisterGoldenHair.txt", "/songs//PeacefulEasyFeeling.txt"];
+
 var get_mime = function(filename) {
     var ext, type;
     for (ext in MIME_TYPES) {
@@ -39,7 +41,7 @@ http.createServer(function (request,response){
 	 console.log("PATHNAME: " + urlObj.pathname);
      console.log("REQUEST: " + ROOT_DIR + urlObj.pathname);
      console.log("METHOD: " + request.method);
-	 
+
 	 var filePath = ROOT_DIR + urlObj.pathname;
 	 if(urlObj.pathname === '/') filePath = ROOT_DIR + '/index.html';
      fs.readFile(filePath, function(err,data){
@@ -50,6 +52,24 @@ http.createServer(function (request,response){
           response.writeHead(404);
           response.end(JSON.stringify(err));
           return;
+         }
+         console.log(songs.includes(urlObj.pathname));
+         if(songs.includes(urlObj.pathname)){
+            fs.readFile(filePath, function(err, song) {
+                if(err){
+                    //report error to console
+                    console.log('ERROR: ' + JSON.stringify(err));
+		            //respond with not found 404 to client
+                    response.writeHead(404);
+                    response.end(JSON.stringify(err));
+                    return;
+                } 
+                var array = song.toString().split("\n"); 
+                for(i in array) { console.log(array[i]); } 
+                sendArr = JSON.stringify(song);
+                //console.log(sendArr);
+                response.end("sendArr");
+              });
          }
          response.writeHead(200, {'Content-Type': get_mime(filePath)});
          response.end(data);
