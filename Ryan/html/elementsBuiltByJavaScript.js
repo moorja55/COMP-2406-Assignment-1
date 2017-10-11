@@ -65,9 +65,7 @@ function mover(event) {
 // Compute the new position, add the units, and move the word
 
   theElement.style.left = (event.clientX - diffX) + "px";
-  console.log(event.clientX - diffX);
   theElement.style.top = (event.clientY - diffY) + "px";
-  console.log(event.clientY - diffY);
 // Prevent propagation of the event
 
   event.stopPropagation();
@@ -99,18 +97,23 @@ function format(sfile){
   var lyrics = [];
 
   for(i = 1; i < array.length; i++){
-    line = array[i].split(" ");
+    line = array[i].split("[");
     var chordLine = [];
     var lyricLine = [];
     var chordSpaceCount = 0;
     for(j in line){
-      if(line[j].startsWith("[")){
+      if(line[j].includes("]")){
+        var separate = line[j].split("]");
+        console.log(separate);
         chordLine.push(chordSpaceCount);
+        chordLine.push(separate[0]);
         chordSpaceCount = 0;
-        chordLine.push(line[j].substring(1, line[j].length-1));
+
+        lyricLine.push(separate[1]);
+        chordSpaceCount = separate[1].length;
       }else{
-        lyricLine.push(line[j] + " ");
-        chordSpaceCount += line[j].length + 1
+        lyricLine.push(line[j]);
+        chordSpaceCount = line[j].length;        
       }
     }
     chords.push(chordLine);
@@ -201,8 +204,10 @@ function buildElements(song){
       chordItem.appendChild(aChord);
       chordItem.style.backgroundColor = "#00ff00";      
       chordItem.style.position = "absolute";
-      horizontal += (chordSpace + chordLine[j].length) * 5;
+      horizontal += (chordSpace) * 5.7;
       chordItem.style.left = "" + horizontal + "px";
+      horizontal += 5;
+      horizontal += aChord.length * 5;      
       chordItem.style.top = "" + vertical + "px";
       chordItem.onmousedown = grabber;      
       document.getElementById("main").appendChild(chordItem);
@@ -215,7 +220,7 @@ function buildElements(song){
     for(var j = 0; j < lyricLine.length; j++){
       lyricStr += lyricLine[j];
       if (j != lyricLine.length - 1){
-        lyricStr += " ";
+        lyricStr;
       }
     }
     var aLyric = document.createTextNode(lyricStr);
